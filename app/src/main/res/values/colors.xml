@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="principai_telas">#F2F3DE</color>
+    <color name="black_fosco">#232428</color>
+</resources>

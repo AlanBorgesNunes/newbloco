@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".uis.NotesPrivatesFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_tolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/black_fosco">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="20"
+            android:src="@drawable/round_back_24"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="80"
+            android:text="Notas privadas"
+            android:textColor="@color/principai_telas"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:fontFamily="@font/bolde"
+            />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_notes_privates"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_tolbar"
+        tools:listitem="@layout/item_layout"/>
+
+</RelativeLayout>
