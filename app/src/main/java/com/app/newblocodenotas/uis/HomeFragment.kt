@@ -153,7 +153,6 @@ class HomeFragment : Fragment() {
                     R.id.action_homeFragment_to_notesPrivatesFragment
                 )
             } else {
-
                 toast("Falha na autenticação")
             }
         }
