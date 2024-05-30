@@ -3,6 +3,7 @@ package com.app.newblocodenotas.utils
 
 import android.app.Activity
 import android.app.Dialog
+import android.app.KeyguardManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -24,6 +25,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -218,5 +220,19 @@ fun TextView.setColouredSpan(
         text = spannableString
     } catch (e: IndexOutOfBoundsException) {
         println("$word was not not found in TextView text")
+    }
+}
+
+
+fun Fragment.authenticateWithDevicePassword(
+    onSuccess: () -> Unit,
+    onFailure: () -> Unit
+) {
+    val keyguardManager = requireActivity().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+    if (keyguardManager.isKeyguardSecure) {
+        val intent = keyguardManager.createConfirmDeviceCredentialIntent(null, null)
+        startActivityForResult(intent, RequestConfirme.REQUEST_CONFIRM_DEVICE_CREDENTIALS)
+    } else {
+        onSuccess() // Se não houver senha configurada, apenas chame onSuccess
     }
 }

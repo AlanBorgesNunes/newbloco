@@ -24,19 +24,49 @@
             />
 
         <ImageView
+            android:id="@+id/nova_nota"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="20"
+            android:layout_weight="10"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/round_add_24"/>
+
+        <ImageView
+            android:id="@+id/menu_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="10"
             android:src="@drawable/settings"/>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_tolbar"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="271dp"
+        android:layout_marginBottom="362dp" />
+
+    <TextView
+        android:id="@+id/tv_mensagem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Ainda não ha notas!"
+        android:gravity="center"
+        android:fontFamily="@font/bolde"
+        android:visibility="gone"
+        android:layout_below="@id/ll_tolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll_tolbar"
+        android:visibility="gone"
         tools:listitem="@layout/item_layout"/>
 
 </RelativeLayout>

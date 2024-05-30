@@ -11,6 +11,8 @@ import com.app.newblocodenotas.R
 import com.app.newblocodenotas.adapters.SliderAdapter
 import com.app.newblocodenotas.databinding.FragmentInicioBinding
 import com.app.newblocodenotas.models.SliderItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +27,7 @@ class InicioFragment : Fragment() {
             viewLifecycleOwner
         }
         init()
+        verifiqueUserLogado()
         return binding.root
     }
 
@@ -48,6 +51,15 @@ class InicioFragment : Fragment() {
             )
         }
 
+    }
+
+    private fun verifiqueUserLogado(){
+        val user = FirebaseAuth.getInstance().currentUser?.uid
+        if (user != null){
+            findNavController().navigate(
+                R.id.action_inicioFragment_to_homeFragment
+            )
+        }
     }
 
 }

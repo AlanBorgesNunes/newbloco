@@ -149,12 +149,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_button_migrate_card"
+                android:orientation="horizontal"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?selectableItemBackgroundBorderless"
                 android:gravity="center">
 
+                <ProgressBar
+                    android:id="@+id/progress_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
+
                 <TextView
+                    android:id="@+id/txt_cadastrar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bolde"

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0"
+agp = "8.3.0"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -64,6 +64,9 @@ viewpager = {group = "androidx.viewpager2", name = "viewpager2" , version = "1.1
 
 
 seervice = {group = "com.google.gms", name = "google-services", version.ref = "service"}
+
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

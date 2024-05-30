@@ -20,9 +20,6 @@ class viewModelAnotation @Inject constructor(
     val newNote: LiveData<UiState<String>>
         get() = _newNote
 
-    private val _newNotePrivate = MutableLiveData<UiState<String>>()
-    val newNotePrivate: LiveData<UiState<String>>
-        get() = _newNotePrivate
 
     private val _getNote = MutableLiveData<UiState<ArrayList<Anotation>>>()
     val getNote: LiveData<UiState<ArrayList<Anotation>>>
@@ -36,12 +33,14 @@ class viewModelAnotation @Inject constructor(
 
     fun newNote(
         id: String,
+        privateOrPublic: String,
         anotation: Anotation
     ){
         viewModelScope.launch {
             _newNote.value = UiState.Loading
             repository.createAnotation(
                 id,
+                privateOrPublic,
                 anotation
             ){state ->
                 _newNote.value = state
@@ -49,20 +48,7 @@ class viewModelAnotation @Inject constructor(
         }
     }
 
-    fun newNotePrivate(
-        id: String,
-        anotation: Anotation
-    ){
-        viewModelScope.launch {
-            _newNotePrivate.value = UiState.Loading
-            repository.createAnotationPrivate(
-                id,
-                anotation
-            ){state ->
-                _newNotePrivate.value = state
-            }
-        }
-    }
+
 
 
     fun getNote(
@@ -83,12 +69,13 @@ class viewModelAnotation @Inject constructor(
     ){
         viewModelScope.launch {
             _getNotePrivate.value = UiState.Loading
-            repository.getAnotationPrivete(
+            repository.getAnotationPivate(
                 id
             ){listState->
                 _getNotePrivate.value = listState
             }
         }
     }
+
 
 }

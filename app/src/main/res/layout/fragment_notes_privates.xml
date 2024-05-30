@@ -12,6 +12,7 @@
         android:background="@color/black_fosco">
 
         <ImageView
+            android:id="@+id/back_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
