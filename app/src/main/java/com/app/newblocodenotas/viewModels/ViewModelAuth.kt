@@ -50,4 +50,18 @@ class ViewModelAuth @Inject constructor(
             }
         }
     }
+
+
+    fun logout(
+        result: () -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.logout(result)
+            }catch (e: Exception){
+                println(e.localizedMessage)
+            }
+        }
+
+    }
 }

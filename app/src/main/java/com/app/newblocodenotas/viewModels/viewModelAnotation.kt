@@ -20,6 +20,10 @@ class viewModelAnotation @Inject constructor(
     val newNote: LiveData<UiState<String>>
         get() = _newNote
 
+    private val _updateNote = MutableLiveData<UiState<String>>()
+    val updateNote: LiveData<UiState<String>>
+        get() = _updateNote
+
 
     private val _getNote = MutableLiveData<UiState<ArrayList<Anotation>>>()
     val getNote: LiveData<UiState<ArrayList<Anotation>>>
@@ -73,6 +77,23 @@ class viewModelAnotation @Inject constructor(
                 id
             ){listState->
                 _getNotePrivate.value = listState
+            }
+        }
+    }
+
+    fun updateNote(
+        id: String,
+        hashMap: HashMap<String, Any>,
+        anotation: Anotation
+    ){
+        viewModelScope.launch {
+            _updateNote.value = UiState.Loading
+            repository.updateNote(
+                id,
+                hashMap,
+                anotation
+            ){
+                _updateNote.value = it
             }
         }
     }

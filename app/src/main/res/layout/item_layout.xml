@@ -49,9 +49,15 @@
 
             />
 
-
-
-
+        <ImageView
+            android:id="@+id/tres_pontos_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="2dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/menu_tres_pontos" />
 
     </RelativeLayout>
 

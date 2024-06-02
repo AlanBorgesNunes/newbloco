@@ -20,6 +20,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Spinner
@@ -27,6 +28,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.app.newblocodenotas.adapters.AdapterNotas
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -235,4 +239,12 @@ fun Fragment.authenticateWithDevicePassword(
     } else {
         onSuccess() // Se não houver senha configurada, apenas chame onSuccess
     }
+}
+
+fun Fragment.recyclerInit(
+    recyclerView: RecyclerView,
+    adapter: AdapterNotas
+){
+    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    recyclerView.adapter = adapter
 }

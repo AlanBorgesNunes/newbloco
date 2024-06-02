@@ -9,12 +9,14 @@ interface Repository {
     //Auth
     suspend fun authUser(user:User, result: (UiState<String>)-> Unit)
     suspend fun createUser(user:User, result: (UiState<String>)-> Unit)
+    suspend fun logout(result: () -> Unit)
 
     //Create user in Database
     fun createUserInDatabase(user: User, result: (UiState<String>) -> Unit)
 
     //POST and GET Anotation
     suspend fun createAnotation(id: String,privateOrPublic: String,anotation: Anotation, result: (UiState<String>) -> Unit)
+    suspend fun updateNote(id: String,hashMap: HashMap<String,Any>, anotation: Anotation, result: (UiState<String>) -> Unit)
     suspend fun getAnotation(id: String, result: (UiState<ArrayList<Anotation>>) -> Unit)
     suspend fun getAnotationPivate(id: String, result: (UiState<ArrayList<Anotation>>) -> Unit)
 

@@ -87,6 +87,11 @@ class RepositorioImple(
 
     }
 
+    override suspend fun logout(result: () -> Unit) {
+        auth.signOut()
+        result.invoke()
+    }
+
     override fun createUserInDatabase(user: User, result: (UiState<String>) -> Unit) {
         val document = database.collection("users")
             .document(auth.currentUser?.uid!!)
@@ -121,6 +126,32 @@ class RepositorioImple(
                 result.invoke(
                     UiState.Success(
                         "Secces create note"
+                    )
+                )
+            }.addOnFailureListener {
+                result.invoke(
+                    UiState.Failure(
+                        it.localizedMessage
+                    )
+                )
+            }
+    }
+
+    override suspend fun updateNote(
+        id: String,
+        hashMap: HashMap<String, Any>,
+        anotation: Anotation,
+        result: (UiState<String>) -> Unit
+    ) {
+        val document = database.collection(id)
+            .document("Notas")
+            .collection(anotation.privateOrPublic!!)
+            .document(anotation.id!!)
+        document.update(hashMap)
+            .addOnSuccessListener {
+                result.invoke(
+                    UiState.Success(
+                        "succes update note"
                     )
                 )
             }.addOnFailureListener {

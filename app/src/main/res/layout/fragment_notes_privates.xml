@@ -32,11 +32,42 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_notes_private"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_below="@id/ll_tolbar"/>
+
+    <LinearLayout
+        android:id="@+id/ll_notes_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_tolbar"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Ainda não possui notas privadas :("/>
+
+        <Button
+            android:id="@+id/create_fisrt_note_private"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="20dp"
+            android:text="Crie a primeira :)"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notes_privates"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll_tolbar"
+        android:visibility="gone"
         tools:listitem="@layout/item_layout"/>
 
 </RelativeLayout>

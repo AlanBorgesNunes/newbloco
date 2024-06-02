@@ -1,22 +1,18 @@
 package com.app.newblocodenotas.uis
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.app.newblocodenotas.R
 import com.app.newblocodenotas.adapters.AdapterNotas
 import com.app.newblocodenotas.databinding.FragmentHomeBinding
@@ -24,20 +20,27 @@ import com.app.newblocodenotas.models.Anotation
 import com.app.newblocodenotas.utils.RequestConfirme
 import com.app.newblocodenotas.utils.UiState
 import com.app.newblocodenotas.utils.authenticateWithDevicePassword
+import com.app.newblocodenotas.utils.createDialog
+import com.app.newblocodenotas.utils.recyclerInit
 import com.app.newblocodenotas.utils.toast
+import com.app.newblocodenotas.viewModels.ViewModelAuth
 import com.app.newblocodenotas.viewModels.viewModelAnotation
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AdapterNotas.ClickDelete, AdapterNotas.ClickEdit {
     private lateinit var binding: FragmentHomeBinding
     private val viewModelAnotation: viewModelAnotation by viewModels()
+    private val viewModelAuth: ViewModelAuth by viewModels()
     private val list: ArrayList<Anotation> = arrayListOf<Anotation>()
 
     private val adapterNote by lazy {
         AdapterNotas(
-            list
+            list,
+            requireContext(),
+            this,
+            this
         )
     }
 
@@ -84,7 +87,7 @@ class HomeFragment : Fragment() {
                     binding.tvMensagem.visibility = View.GONE
 
                     list.addAll(state.data)
-                    initRecycler(binding.rvHome)
+                    recyclerInit(binding.rvHome, adapterNote)
                 }
             }
         }
@@ -100,10 +103,6 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun initRecycler(recyclerView: RecyclerView) {
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapterNote
-    }
 
     private fun novaNota() {
         binding.novaNota.setOnClickListener {
@@ -135,6 +134,11 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.sigOut_menu->{
+                    viewModelAuth.logout {
+                        findNavController().navigate(
+                            R.id.action_homeFragment_to_loginFragment
+                        )
+                    }
                     true
                 }
 
@@ -156,6 +160,16 @@ class HomeFragment : Fragment() {
                 toast("Falha na autenticação")
             }
         }
+    }
+
+    override fun clickDelete(anotation: Anotation) {
+        val dialog = requireContext().createDialog(R.layout.dialog_delete_nota, true)
+        val receiveNota = dialog.findViewById<TextView>(R.id.dialog_receive_nota)
+        dialog.show()
+    }
+
+    override fun clickEdite(anotation: Anotation) {
+        toast("Edite nota: ${anotation.id}")
     }
 
 
