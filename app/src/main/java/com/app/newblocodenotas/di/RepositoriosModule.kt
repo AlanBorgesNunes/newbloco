@@ -2,6 +2,7 @@ package com.app.newblocodenotas.di
 
 import com.app.newblocodenotas.repositorios.RepositorioImple
 import com.app.newblocodenotas.repositorios.Repository
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -18,9 +19,10 @@ object RepositoriosModule {
     @Singleton
     fun providesRepositorios(
         auth: FirebaseAuth,
-        database: FirebaseFirestore
+        database: FirebaseFirestore,
+        adRequest: AdRequest
     ): Repository{
-        return RepositorioImple(database, auth)
+        return RepositorioImple(database, auth, adRequest)
     }
 
 }

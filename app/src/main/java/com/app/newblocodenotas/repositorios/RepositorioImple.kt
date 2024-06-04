@@ -1,8 +1,17 @@
 package com.app.newblocodenotas.repositorios
 
+import android.app.Activity
+import android.content.Context
 import com.app.newblocodenotas.models.Anotation
 import com.app.newblocodenotas.models.User
 import com.app.newblocodenotas.utils.UiState
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -11,8 +20,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class RepositorioImple(
     private val database: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    var adRequest: AdRequest
 ) : Repository {
+
+
+    private var interstitialAd: InterstitialAd? = null
+    private var rewardedAd: RewardedAd? = null
+
     override suspend fun authUser(
         user: User,
         result: (UiState<String>) -> Unit
@@ -111,7 +126,7 @@ class RepositorioImple(
             }
     }
 
-    override suspend fun createAnotation(
+    override suspend fun createNote(
         id: String,
         privateOrPublic: String,
         anotation: Anotation,
@@ -164,7 +179,7 @@ class RepositorioImple(
     }
 
 
-    override suspend fun getAnotation(
+    override suspend fun getNote(
         id: String,
         result: (UiState<ArrayList<Anotation>>) -> Unit
     ) {
@@ -199,7 +214,7 @@ class RepositorioImple(
         }
     }
 
-    override suspend fun getAnotationPivate(
+    override suspend fun getNotePivate(
         id: String,
         result: (UiState<ArrayList<Anotation>>) -> Unit
     ) {
@@ -231,6 +246,73 @@ class RepositorioImple(
                     )
                 )
             }
+        }
+    }
+
+    override suspend fun deleteNote(
+        id: String,
+        anotation: Anotation,
+        result: (UiState<String>) -> Unit
+    ) {
+        val document = database.collection(id).document("Notas")
+            .collection(anotation.privateOrPublic!!).document(anotation.id!!)
+        document.delete()
+            .addOnSuccessListener {
+                result.invoke(
+                    UiState.Success(
+                        "Succes deleted"
+                    )
+                )
+            }.addOnFailureListener {
+                result.invoke(
+                    UiState.Failure(
+                        it.localizedMessage
+                    )
+                )
+            }
+    }
+
+    override suspend fun loadInterstitialAd(context: Context, result: (UiState<String>) -> Unit) {
+        InterstitialAd.load(context,"ca-app-pub-6827886217820908/3517396302",
+            adRequest,object  : InterstitialAdLoadCallback(){
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    result.invoke(UiState.Failure(
+                        "Null"
+                    ))
+                    interstitialAd = null
+                }
+
+                override fun onAdLoaded(MinterstitialAd: InterstitialAd) {
+                    result.invoke(UiState.Success(
+                        "Sucess"
+                    ))
+                    interstitialAd = MinterstitialAd
+                }
+            })
+    }
+
+    override suspend fun showInterstitialAd(activity: Activity, result: (UiState<String>) -> Unit) {
+        if (interstitialAd != null){
+            interstitialAd!!.fullScreenContentCallback = object : FullScreenContentCallback(){
+                override fun onAdDismissedFullScreenContent() {
+                    result.invoke(UiState.Success("den"))
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    super.onAdFailedToShowFullScreenContent(p0)
+                    result.invoke(UiState.Success("failed"))
+                }
+            }
+
+            interstitialAd?.show(activity).run {
+                result.invoke(UiState.Success(
+                    "show inter"
+                ))
+            }
+        }else{
+            result.invoke(UiState.Failure(
+                "innter NUll"
+            ))
         }
     }
 
