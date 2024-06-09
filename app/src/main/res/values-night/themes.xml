@@ -4,4 +4,6 @@
 
        <item name="colorPrimary">@color/black_fosco</item>
     </style>
+
+    <style name="Theme.NewBlocoDeNotas" parent="Base.Theme.NewBlocoDeNotas" />
 </resources>

@@ -99,7 +99,7 @@ class CreateNoteFragment : Fragment() {
         val selectedRadioButtonId = radioGroup.checkedRadioButtonId
 
         if (selectedRadioButtonId == -1) {
-            return ""
+            return "Public"
         }
         val selectedRadioButton = radioGroup.findViewById<RadioButton>(selectedRadioButtonId)
         return selectedRadioButton.text.toString()
